@@ -1,10 +1,10 @@
-#INSTRUCTIONS
+###INSTRUCTIONS
 
 ### Requirements
 
-https://nodejs.org/en/download
-https://www.npmjs.com/get-npm
-https://firebase.google.com/docs/cli
+1. https://nodejs.org/en/download
+2. https://www.npmjs.com/get-npm
+3. https://firebase.google.com/docs/cli
 
 
 ### Get Started
