@@ -2,7 +2,7 @@
 
 ### Requirements
 
-https://nodejs.org/en/download/
+https://nodejs.org/en/download
 https://www.npmjs.com/get-npm
 https://firebase.google.com/docs/cli
 
