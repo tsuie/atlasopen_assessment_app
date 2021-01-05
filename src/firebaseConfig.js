@@ -1,12 +1,12 @@
 var firebaseConfig = {
     //TODO Replace with own config file
-    // apiKey: "AIzaSyD7KhDYomFFrQE4dHH6DDs-SNK9rfptZ9o",
-    // authDomain: "assessment-app-41d0b.firebaseapp.com",
-    // databaseURL: "https://assessment-app-41d0b.firebaseio.com",
-    // projectId: "assessment-app-41d0b",
-    // storageBucket: "assessment-app-41d0b.appspot.com",
-    // messagingSenderId: "418813227371",
-    // appId: "1:418813227371:web:22828bd50e32150598dc2e"
+    apiKey: "AIzaSyDSINGmBE3TuhB-k77SxKpzS1J6CgqpAaQ",
+    authDomain: "assessment-app-3.firebaseapp.com",
+    databaseURL: "https://assessment-app-3-default-rtdb.firebaseio.com",
+    projectId: "aassessment-app-3",
+    storageBucket: "assessment-app-3.appspot.com",
+    messagingSenderId: "96766123206",
+    appId: "1:96766123206:web:1f1a0d5810da962c7ecbc7"
 };
 
 export default firebaseConfig;

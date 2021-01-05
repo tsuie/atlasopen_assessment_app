@@ -18,12 +18,12 @@ export default function Chat() {
             <h1>Chat Page</h1>
 
             <Grid container>
-            <Grid md={12}>
-            <TextField onChange={(e) => console.log(e.target.value)}/>
-            </Grid>
-            <Grid md={12}>
-            <Button variant="contained">Submit</Button>
-            </Grid>
+                <Grid item={true} md={12}>
+                    <TextField onChange={(e) => console.log(e.target.value)}/>
+                </Grid>
+                <Grid item={true} md={12}>
+                    <Button variant="contained">Submit</Button>
+                </Grid>
             </Grid>
 
             <Logout />
