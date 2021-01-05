@@ -25,16 +25,16 @@ const Signup = () => {
     
     // Import firebase
     const firebase = useFirebaseApp();
-    axios.get('http://random.dog/woof.json').then(result => {
-        console.log(result.data)
-        user.photoUrl = result.data.url;
-    });
+   
     
     // Submit function (Create account)
     const handleSubmit = async(e) => {
         e.preventDefault();
         // Sign up code here.
-        
+        axios.get('http://random.dog/woof.json').then(result => {
+            console.log(result.data)
+            user.photoUrl = result.data.url;
+        });
         await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
             .then(result => {
                 
@@ -71,7 +71,6 @@ const Signup = () => {
                 })
             })
     }
-
     return (
         
         <>

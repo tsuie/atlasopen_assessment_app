@@ -7,7 +7,8 @@ import 'firebase/auth'
 
 //HINT
 import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
-import {TextField, Button, Grid, Typography} from "@material-ui/core";
+import {TextField, IconButton, Grid, Typography, Avatar} from "@material-ui/core";
+import SendIcon from '@material-ui/icons/Send';
 
 export default function Chat() {
     
@@ -15,20 +16,38 @@ export default function Chat() {
     const user = useUser();
     const messageRef = useFirestore().collection('messages');
     const { status, data } = useFirestoreCollectionData(messageRef);
-
+    console.log(user.photoURL)
     return (
         <div>
-            <h1>Chat Page</h1>
-
-            <Grid container>
-                <Grid item={true} md={12}>
-                    <TextField onChange={(e) => console.log(e.target.value)}/>
+            <Typography variant="h3" component="h4">Chat Page</Typography>
+            <Grid
+                container
+                justify="center"
+                alignItems="center"
+                spacing={1}
+            >
+                <Grid item md={12}>
+                    <Avatar alt={user.displayName} src={user.photoURL} />
                 </Grid>
-                <Grid item={true} md={12}>
-                    <Button variant="contained">Submit</Button>
+                <Grid item md={12}>
+                    <Typography variant="body1" component="h5">Welcome {user.displayName} </Typography>
                 </Grid>
             </Grid>
-
+            <Grid container 
+                justify="center"
+                alignItems="center"
+                spacing={1}
+            >
+                <Grid item md={12}>
+                    <TextField onChange={(e) => console.log(e.target.value)} placeholder={'Enter Message'}/>
+                </Grid>
+                <Grid item md={12}>
+                    <IconButton aria-label="delete" color="primary">
+                        <SendIcon />
+                    </IconButton>
+                </Grid>
+            </Grid>
+            <hr />
             <Logout />
         </div>
     )
