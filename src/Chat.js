@@ -10,8 +10,11 @@ import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } f
 import {TextField, Button, Grid, Typography} from "@material-ui/core";
 
 export default function Chat() {
-
+    
     // TODO: Display messages from chat and submit messages
+    const user = useUser();
+    const messageRef = useFirestore().collection('messages');
+    const { status, data } = useFirestoreCollectionData(messageRef);
 
     return (
         <div>

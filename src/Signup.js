@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Signup.css';
 import { useFirebaseApp } from 'reactfire';
+import axios from 'axios';
+
 
 const Signup = () => {
     // User State
@@ -8,6 +10,7 @@ const Signup = () => {
         nickname: '',
         email: '',
         password: '',
+        photoUrl: '',
         error: '',
     });
 
@@ -19,19 +22,26 @@ const Signup = () => {
             error: '',
         })
     };
-
+    
     // Import firebase
     const firebase = useFirebaseApp();
-
+    axios.get('http://random.dog/woof.json').then(result => {
+        console.log(result.data)
+        user.photoUrl = result.data.url;
+    });
+    
     // Submit function (Create account)
     const handleSubmit = async(e) => {
         e.preventDefault();
         // Sign up code here.
+        
         await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
             .then(result => {
+                
                 // Update the nickname
                 result.user.updateProfile({
                     displayName: user.nickname,
+                    photoURL: user.photoUrl
                 })
 
                 const myURL = { url: 'http://localhost:3000/' }
@@ -63,6 +73,7 @@ const Signup = () => {
     }
 
     return (
+        
         <>
             <h1>Sign up</h1>
             <form onSubmit={handleSubmit}>

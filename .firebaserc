@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "assessment-app-3"
+    "default": "assessment-app-3",
+    "staging": "assessment-app-3"
   }
 }
