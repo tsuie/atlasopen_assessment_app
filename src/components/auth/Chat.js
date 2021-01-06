@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import { v4 as uuidv4 } from 'uuid';
 import PetsIcon from '@material-ui/icons/Pets';
 //HINT
-import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
+// import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
 import {
     TextField,
     IconButton,
@@ -19,7 +19,7 @@ import {
 } from "@material-ui/core";
 
 import Messagebox from './chat/Messagebox';
-import Headbar from '../templates/Headbar';
+// import Headbar from '../templates/Headbar';
 import _ from 'lodash';
 
 

@@ -37,13 +37,13 @@ export default function Signup(prop) {
     const firestore = useFirestore();
     const userCollection = firestore.collection('users');
     
-
+    console.log(window.location.hostname);
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
     const fetchDogImage = () => {
-        axios.get('http://random.dog/woof.json').then(res => {
+        axios.get('https://random.dog/woof.json').then(res => {
             // Validate URL if its image
             while(validateDogImage(res.data.url)) {
                 fetchDogImage()
@@ -83,7 +83,7 @@ export default function Signup(prop) {
                 photoURL: user.photoUrl
             });
             const uid = uuidv4();
-            const myURL = { url: 'http://localhost:3000/' };
+            const myURL = { url: window.location.hostname };
             await userData.user.sendEmailVerification(myURL);
             setUser({
                 ...user,
