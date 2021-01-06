@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Signup.css';
 import { useFirebaseApp } from 'reactfire';
+
 import axios from 'axios';
 
 
@@ -25,17 +26,15 @@ const Signup = () => {
     
     // Import firebase
     const firebase = useFirebaseApp();
-   
-    
+ 
     // Submit function (Create account)
     const handleSubmit = async(e) => {
         e.preventDefault();
         // Sign up code here.
-        axios.get('http://random.dog/woof.json').then(result => {
-            console.log(result.data)
-            user.photoUrl = result.data.url;
-        });
-        await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+        await axios.get('http://random.dog/woof.json').then(res => {
+            console.log(res.data)
+            user.photoUrl = res.data.url;
+            firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
             .then(result => {
                 
                 // Update the nickname
@@ -45,8 +44,7 @@ const Signup = () => {
                 })
 
                 const myURL = { url: 'http://localhost:3000/' }
-
-                // Send Email Verification and redirect to my website.
+                // Insert to collection
                 result.user.sendEmailVerification(myURL)
                     .then(() => {
                         setUser({
@@ -63,6 +61,8 @@ const Signup = () => {
 
                 // Sign Out the user.
                 firebase.auth().signOut();
+
+                
             }).catch(error => {
                 // Update the error
                 setUser({
@@ -70,6 +70,7 @@ const Signup = () => {
                     error: error.message,
                 })
             })
+        });
     }
     return (
         

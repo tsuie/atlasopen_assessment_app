@@ -3,16 +3,16 @@ import { useFirebaseApp, } from 'reactfire';
 import 'firebase/auth'
 import './Signup.css';
 
-
 //TODO convert this to a functional component to use firebase hooks
 const Login = () => {
     const firebase = useFirebaseApp();
+    
     const [user, setUser] = useState({
         email: '',
         password: '',
         error: ''
     });
-    
+
     const handleChange = e => {
         setUser({
             ...user,
