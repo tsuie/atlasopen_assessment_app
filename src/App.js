@@ -4,6 +4,7 @@ import Login from './components/nonauth/Login';
 import Chat from './components/auth/Chat';
 import Logout from './components/auth/Logout';
 import Verify from './components/auth/Verify'; 
+import Stats from './components/auth/Stats';
 import { useUser } from 'reactfire';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '0px auto'
     },
     chatbox: {
-        maxHeight: '400px;',
+        maxHeight: '300px;',
         overflowY: 'scroll'
     },
     fullWidthInput: {
@@ -49,43 +50,67 @@ function App() {
                   (
                     (!user.emailVerified) ? 
                       (
-                        <Redirect to="/verify" />
+                        <Verify classes={classes}/>
                       ) :
                       (
                         <Chat classes={classes}/>
                       )
                   ) : (
                 <>
-                  <Redirect to="login" />
+                  <Login  classes={classes}/>
                 </>
                 )}
               </Route>
               <Route exact path='/signup'>
                 {user ? (
-                  <Redirect to="/" />
+                  (!user.emailVerified) ? (
+                    <Redirect to="/verify" />
+                  ) : (
+                    <Redirect to="/" />
+                  )
                 ) : (
                   <Signup classes={classes}/>
                 )}
               </Route>
               <Route exact path='/verify'>
                 {user ? (
-                 <Verify classes={classes}/>
+                 (!user.emailVerified) ? (
+                    <Verify classes={classes}/>
+                  ) : (
+                    <Redirect to="/" />
+                  )
                 ) : (
                 <>
-                  <Redirect to="login" />
+                  <Redirect to="/login" />
                 </>
                 )}
               </Route>
               <Route exact path='/logout'>
                 <Logout  classes={classes}/>
-              </Route>
-                
-              <Route path='/login'>
+              </Route> 
+              <Route exact path='/login'>
                 {user ? (
                   <Redirect to="/" />
                 ) : (
                   <Login  classes={classes}/>
                 )}
+              </Route>
+              <Route exact path='/stats'>
+                {user ? 
+                  (
+                    (!user.emailVerified) ? 
+                      (
+                        <Verify classes={classes}/>
+                      ) :
+                      (
+                        <Stats classes={classes}/>
+                      )
+                  ) : (
+                  <Redirect to="/" />
+                )}
+              </Route>
+              <Route path="*">
+                <Redirect to="/" />
               </Route>
               {/* <Route path='/chat'>
                 <Chat />

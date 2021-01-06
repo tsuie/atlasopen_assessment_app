@@ -12,7 +12,7 @@ const Logout = () => {
     // Log out function
     const handleClick = () => {
         firebase.auth().signOut();
-        return <Redirect to='login' />
+        return <Redirect to='/' />
     }
 
     return (

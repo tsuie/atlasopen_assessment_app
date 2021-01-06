@@ -6,6 +6,7 @@ import Logout from './Logout';
 import firebase from 'firebase';
 import { v4 as uuidv4 } from 'uuid';
 import PetsIcon from '@material-ui/icons/Pets';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 //HINT
 // import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
 import {
@@ -15,7 +16,8 @@ import {
     Avatar,
     Card,
     CardHeader,
-    CardContent
+    CardContent,
+    Button
 } from "@material-ui/core";
 
 import Messagebox from './chat/Messagebox';
@@ -104,6 +106,8 @@ export default function Chat(props) {
                 </Grid>
             </Grid>
             </form>
+            <br />
+            <Button variant="contained" href="/stats"><EqualizerIcon /> Check woof Stats</Button>
         </div>
     )
 

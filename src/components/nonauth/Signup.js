@@ -36,66 +36,86 @@ export default function Signup(prop) {
     const firebase = useFirebaseApp();
     const firestore = useFirestore();
     const userCollection = firestore.collection('users');
-    
+
+    // let firebase, firestore, userCollection;
     console.log(window.location.hostname);
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
-
+    
+    const runDogAPI =  () => {
+        return axios.get('https://random.dog/woof.json');
+    }
+    
     const fetchDogImage = () => {
-        axios.get('https://random.dog/woof.json').then(res => {
-            // Validate URL if its image
-            while(validateDogImage(res.data.url)) {
-                fetchDogImage()
-            }
-            user.photoUrl = res.data.url;
-        }).then(() => {
-            // console.log(user);
-        });
+        console.log('Fetching..', user);
+        // Validate URL if its image
+        try {
+            runDogAPI().then(dogData => {
+                let isValid = validateDogImage(dogData.data.url);
+                let image = dogData.data.url;
+                console.log(image);
+                if(!isValid) {
+                    fetchDogImage()
+                }
+                else {
+                    user.photoUrl = image;
+                }
+                console.log(user);
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const validateDogImage = (dogImage) => {
-        let ret = true;
+        let ret = false;
         if(dogImage) {
             const ext = dogImage.split(".");
             const allowedExt = ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG", "GIF", "gif"];
-            const found = allowedExt.find(element => (element === ext[1]));
+            const found = allowedExt.find(element => (element === ext[2]));
 
             if(found) {
-                ret = false;
+                ret = true;
             }
             else {
-                ret = true;
+                ret = false;
             }
         }
         return ret;
     }
     useEffect(fetchDogImage, []);
-    
     // Submit function (Create account)
     const handleSubmit = async(e) => {
         e.preventDefault();
         
         try {
-            const userData = await firebase.auth().createUserWithEmailAndPassword(user.email, user.password);
-            userData.user.updateProfile({
-                displayName: user.nickname,
-                photoURL: user.photoUrl
-            });
-            const uid = uuidv4();
-            const myURL = { url: window.location.hostname };
-            await userData.user.sendEmailVerification(myURL);
-            setUser({
-                ...user,
-                verifyEmail: `Welcome ${user.nickname}. To continue please verify your email.`,
-            });
-            userCollection.doc(uid).set({
-                uid: userData.user.uid,
-                displayName: userData.user.displayName,
-                email: userData.user.email,
-                photoURL: userData.user.photoURL
-            })
+            await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(
+                function(userData) {
+                    userData.user.updateProfile({
+                        displayName: user.nickname,
+                        photoURL: user.photoUrl
+                    });
+                    
+                    const myURL = { url: window.location.origin };
 
+                    userData.user.sendEmailVerification(myURL).then(
+                        function(e) {
+                            const uid = uuidv4();
+                            setUser({
+                                ...user,
+                                verifyEmail: `Welcome ${user.nickname}. To continue please verify your email.`,
+                            });
+                            userCollection.doc(uid).set({
+                                uid: userData.user.uid,
+                                displayName: userData.user.displayName,
+                                email: userData.user.email,
+                                photoURL: userData.user.photoURL
+                            })
+                        }
+                    )
+                }
+            );
         } catch(error) {
             console.log("Error : ", error);
             setUser({
