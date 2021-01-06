@@ -1,37 +1,114 @@
 import React from 'react';
-import Signup from './Signup';
-import Login from './Login';
-import Chat from './Chat';
-import Logout from './Logout';
+import Signup from './components/nonauth/Signup';
+import Login from './components/nonauth/Login';
+import Chat from './components/auth/Chat';
+import Logout from './components/auth/Logout';
+import Verify from './components/auth/Verify'; 
 import { useUser } from 'reactfire';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Headbar from './components/templates/Headbar';
 
 
-import { firestore } from 'firebase';
-import { v4 as uuidv4 } from 'uuid';
-
+const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+      maxWidth: '36ch',
+      backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+      display: 'inline',
+    },
+    container: {
+        maxWidth: '500px', 
+        margin: '0px auto'
+    },
+    chatbox: {
+        maxHeight: '400px;',
+        overflowY: 'scroll'
+    },
+    fullWidthInput: {
+        width: '100%'
+    }
+}));
 // 
 
 //TODO: Add stats dashboard
 function App() {
   const user = useUser();
-  const fs = firestore();
-  // const uid = uuidv4();
-  // const messagesRef = fs.collection('messages').get();
-  // messagesRef.then(messages => {
-  //   console.log(messages);
-  // });
-  
+  const classes = useStyles();
   return (
       <div className="App">
-        {
-          user &&
+        <div className={classes.container}>
+          <Headbar />
+          <Router>
+            <Switch>
+              <Route exact path='/'>
+                {user ? 
+                  (
+                    (!user.emailVerified) ? 
+                      (
+                        <Redirect to="/verify" />
+                      ) :
+                      (
+                        <Chat classes={classes}/>
+                      )
+                  ) : (
+                <>
+                  <Redirect to="login" />
+                </>
+                )}
+              </Route>
+              <Route exact path='/signup'>
+                {user ? (
+                  <Redirect to="/" />
+                ) : (
+                  <Signup classes={classes}/>
+                )}
+              </Route>
+              <Route exact path='/verify'>
+                {user ? (
+                 <Verify classes={classes}/>
+                ) : (
+                <>
+                  <Redirect to="login" />
+                </>
+                )}
+              </Route>
+              <Route exact path='/logout'>
+                <Logout  classes={classes}/>
+              </Route>
+                
+              <Route path='/login'>
+                {user ? (
+                  <Redirect to="/" />
+                ) : (
+                  <Login  classes={classes}/>
+                )}
+              </Route>
+              {/* <Route path='/chat'>
+                <Chat />
+              </Route> */}
+            </Switch>
+          </Router>
+        </div>
+        
+        {/* {
+          user && (
               <>
-              <Router>
+              
+                { (user.emailVerified ? (
                   <Chat/>
-              </Router>
+                ) : 
+                <>
+                    <Verify/>
+                    <Logout />
+                  </>
+                ) 
+                }
               </>
+            )
         }
         {
           !user &&
@@ -39,7 +116,7 @@ function App() {
             <Signup />
             <Login />
           </>
-        }
+        } */}
       </div>
   );
 }
