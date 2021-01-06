@@ -120,7 +120,7 @@ export default function Signup(prop) {
         <>
             <Typography variant="h3" color="inherit">SIGN UP</Typography>
             <form onSubmit={handleSubmit}>
-                <Snackbar open={user.error} autoHideDuration={3000} onClose={handleClose}>
+                <Snackbar open={user.error} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
                         <b>WOOF!</b> {user.error}
                     </Alert>

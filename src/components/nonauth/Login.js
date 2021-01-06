@@ -75,7 +75,7 @@ const Login = (prop) => {
                 onSubmit={handleSubmit}
             >
                 {/* {user.error && <h4>{user.error}</h4>} */}
-                <Snackbar open={ user.error } autoHideDuration={3000} onClose={handleClose}>
+                <Snackbar open={ user.error } autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
                         <b>WOOF!</b> {user.error}
                     </Alert>
