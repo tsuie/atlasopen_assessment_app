@@ -22,13 +22,13 @@ export default function Signup(prop) {
         email: '',
         password: '',
         photoUrl: '',
-        error: '',
+        error: false,
     });
     const handleChange = e => {
         setUser({
             ...user,
             [e.target.name]: e.target.value,
-            error: '',
+            error: false,
         })
     };
     const { classes } = prop;
@@ -112,7 +112,7 @@ export default function Signup(prop) {
     
         setUser({
             ...user,
-            error: '',
+            error: false,
         })
     };
     return (

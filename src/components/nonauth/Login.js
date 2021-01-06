@@ -21,14 +21,14 @@ const Login = (prop) => {
     const [user, setUser] = useState({
         email: '',
         password: '',
-        error: ''
+        error: false
     });
     const { classes } = prop;
     const handleChange = e => {
         setUser({
             ...user,
             [e.target.name]: e.target.value,
-            error: '',
+            error: false,
         })
     };
     function Alert(props) {
@@ -64,7 +64,7 @@ const Login = (prop) => {
     
         setUser({
             ...user,
-            error: '',
+            error: false,
         })
       };
 
@@ -75,7 +75,7 @@ const Login = (prop) => {
                 onSubmit={handleSubmit}
             >
                 {/* {user.error && <h4>{user.error}</h4>} */}
-                <Snackbar open={user.error} autoHideDuration={3000} onClose={handleClose}>
+                <Snackbar open={ user.error } autoHideDuration={3000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
                         <b>WOOF!</b> {user.error}
                     </Alert>
