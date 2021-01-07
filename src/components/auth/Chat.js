@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import 'firebase/auth'
+import 'firebase/auth';
 //HINT https://github.com/FirebaseExtended/reactfire
 import { useUser, useFirestoreCollectionData, useFirestore } from 'reactfire';
 import Logout from './Logout';
@@ -25,34 +25,42 @@ import Messagebox from './chat/Messagebox';
 import _ from 'lodash';
 
 
-
 export default function Chat(props) {
     
     // TODO: Display messages from chat and submit messages
     const user = useUser();
     const [mData, setMessageData] = useState("");
-
     const firestore = useFirestore();
-
-    
-    const messagesCollection = firestore.collection('messages');
-    const usersCollection = firestore.collection('users');
-
-    const messages = _.sortBy(useFirestoreCollectionData(messagesCollection), 'createdAt');
-    const users = useFirestoreCollectionData(usersCollection);
-
     const { classes } = props;
 
     useEffect(() => {
-        scrollToBottom()
-    })
+        scrollToBottom();
+    }, []) // Added dependency so that useEffect wont fire at any action | DONE
+
+    const messagesCollection = firestore.collection('messages');
+    const messages = _.sortBy(useFirestoreCollectionData(messagesCollection), 'createdAt');
+ 
+    const fetchUserIds = () => {
+        const uids = [];
+        messages.map((message) => {
+            if(message.uid !== 'undefined') {
+                if(uids.indexOf(message.uid) < 0) {
+                    uids.push(message.uid);
+                }
+            }
+        });
+        return uids;
+    }
+    const uids = fetchUserIds();
+    const usersCollection = firestore.collection('users').where('uid', 'in', uids); // Optimize
+    const users = useFirestoreCollectionData(usersCollection);
+
     const scrollToBottom = () => {
         const chatbox = document.getElementById('chatBoxContainer');
         chatbox.scrollTo(0, chatbox.scrollHeight);
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(mData);
         if(mData !== '') {
             
             messagesCollection.doc(uuidv4()).set({

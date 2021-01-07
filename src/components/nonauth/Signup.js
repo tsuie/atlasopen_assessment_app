@@ -37,8 +37,12 @@ export default function Signup(prop) {
     const firestore = useFirestore();
     const userCollection = firestore.collection('users');
 
-    // let firebase, firestore, userCollection;
-    console.log(window.location.hostname);
+
+    const userRef = async () => {
+        const u = await userCollection.where('uid', '==', 'KgCCCGMV5SRt3N6C3l0PQdJZaEZ2').get();
+        console.log(u);
+    }
+
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
@@ -48,6 +52,7 @@ export default function Signup(prop) {
     }
     
     const fetchDogImage = () => {
+        userRef();
         console.log('Fetching..', user);
         // Validate URL if its image
         try {

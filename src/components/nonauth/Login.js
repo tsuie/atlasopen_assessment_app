@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFirebaseApp, } from 'reactfire';
+import { useFirebaseApp } from 'reactfire';
 import 'firebase/auth'
 import './Signup.css';
 import {
@@ -34,7 +34,6 @@ const Login = (prop) => {
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
-
     const handleSubmit = e => {
         e.preventDefault();
         
