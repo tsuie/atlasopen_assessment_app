@@ -35,7 +35,7 @@ export default function Chat(props) {
 
     useEffect(() => {
         scrollToBottom();
-    }, []) // Added dependency so that useEffect wont fire at any action | DONE
+    }, []);
 
     const messagesCollection = firestore.collection('messages');
     const messages = _.sortBy(useFirestoreCollectionData(messagesCollection), 'createdAt');
@@ -48,11 +48,12 @@ export default function Chat(props) {
                     uids.push(message.uid);
                 }
             }
+            return true;
         });
         return uids;
     }
     const uids = fetchUserIds();
-    const usersCollection = firestore.collection('users').where('uid', 'in', uids); // Optimize
+    const usersCollection = firestore.collection('users').where('uid', 'in', uids); 
     const users = useFirestoreCollectionData(usersCollection);
 
     const scrollToBottom = () => {

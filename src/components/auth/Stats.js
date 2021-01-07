@@ -24,7 +24,7 @@ const Stats = (props) => {
 
     const messages = _.sortBy(useFirestoreCollectionData(messagesCollection), 'createdAt');
     const users = useFirestoreCollectionData(usersCollection);
-    const { classes } = props;
+    // const { classes } = props;
     const user = useUser();
 
     return (

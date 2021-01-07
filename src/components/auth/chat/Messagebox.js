@@ -10,6 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import _ from 'lodash';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,12 +41,12 @@ const Messagebox = (data) => {
         return (
             <List>
                 {items.map((item, index) => {
-                    let i = 0;
                     const user = findUser(item);
                     const createdAt = moment(item.createdAt.toDate().toISOString()).format('MM/DD/YY hh:mm');
+
                     return (
-                        <div >
-                        <ListItem alignItems="flex-start" key={i++} button  selected={(currentUser.uid === user.uid) ? true : false}>
+                        <div key={uuidv4()}>
+                        <ListItem alignItems="flex-start"  button  selected={(currentUser.uid === user.uid) ? true : false}>
                             <ListItemAvatar>
                             <Avatar alt="Remy Sharp" src={user.photoURL}/>
                             </ListItemAvatar>
